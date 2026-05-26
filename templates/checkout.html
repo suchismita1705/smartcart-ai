@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">Wishlist ❤️</a>
+            <a href="/cart">Cart 🛒</a>
+            
+            {% if session.get("user") %}
+                <a href="/orders">Orders 📦</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="checkout-container">
+        <div class="checkout-box">
+            <h1>Checkout 💳</h1>
+            
+            <form action="/checkout" method="POST">
+                
+                <input type="text" name="fullname" placeholder="Enter Full Name" required>
+                <input type="email" name="email" placeholder="Enter Email (For Order Confirmation)" required>
+                <input type="text" name="phone" placeholder="Enter Phone Number" required>
+                <textarea name="address" placeholder="Enter Full Delivery Address" required></textarea>
+
+                <select name="payment" id="payment" onchange="showPaymentFields()" required>
+                    <option value="">Select Payment Method</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Debit / Credit Card</option>
+                    <option value="COD">Cash On Delivery</option>
+                </select>
+
+                <div id="upi-box" style="display:none; margin-top: 10px;">
+                    <input type="text" name="upi" placeholder="Enter UPI ID (e.g., name@okhdfcbank)">
+                </div>
+
+                <div id="card-box" style="display:none; margin-top: 10px; display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" name="card_number" placeholder="16-Digit Card Number">
+                    <input type="text" name="card_holder" placeholder="Card Holder Name">
+                    <div style="display: flex; gap: 15px;">
+                        <input type="text" name="expiry" placeholder="MM/YY" style="flex: 1;">
+                        <input type="password" name="cvv" placeholder="CVV" style="flex: 1;">
+                    </div>
+                </div>
+
+                <div id="cod-box" style="display:none; margin-top: 15px; padding: 20px; background: #1e293b; border-radius: 14px; text-align: center;">
+                    <h2 style="color: #22c55e; margin-bottom: 10px;">Cash On Delivery Available 🚚</h2>
+                    <p style="color: #cbd5e1; font-size: 18px;">Pay via Cash or UPI upon successful delivery.</p>
+                </div>
+
+                <button type="submit" class="checkout-btn" style="margin-top: 20px;">
+                    Place Order 🚀
+                </button>
+                
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Ensure fields are hidden on page load
+        document.getElementById("upi-box").style.display = "none";
+        document.getElementById("card-box").style.display = "none";
+        document.getElementById("cod-box").style.display = "none";
+
+        function showPaymentFields() {
+            let payment = document.getElementById("payment").value;
+            
+            // Hide all first
+            document.getElementById("upi-box").style.display = "none";
+            document.getElementById("card-box").style.display = "none";
+            document.getElementById("cod-box").style.display = "none";
+            
+            // Show selected
+            if (payment === "UPI") {
+                document.getElementById("upi-box").style.display = "block";
+            } 
+            else if (payment === "Card") {
+                // Using flex so the inputs align properly as styled above
+                document.getElementById("card-box").style.display = "flex";
+            } 
+            else if (payment === "COD") {
+                document.getElementById("cod-box").style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

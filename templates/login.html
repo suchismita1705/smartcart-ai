@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+
+        <div class="nav-search">
+            <form action="/" method="GET">
+                <input type="text" name="search" placeholder="Search Products..." class="search-box">
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">❤️ Wishlist</a>
+            <a href="/cart">🛒 Cart</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">🤖 Chatbot</a>
+                <a href="/orders">📦 Orders</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/register">Register 📝</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Login 🔑</h1>
+            
+            {% if error %}
+                <div style="color: #ef4444; font-weight: bold; margin-bottom: 20px; font-size: 18px;">
+                    {{ error }}
+                </div>
+            {% endif %}
+
+            <form action="/login" method="POST">
+                <input type="email" name="email" placeholder="Enter Email" required>
+                <input type="password" name="password" placeholder="Enter Password" required>
+                <button type="submit">Login 🚀</button>
+            </form>
+            
+            <p>
+                Don't have an account? 
+                <a href="/register">Register Here</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

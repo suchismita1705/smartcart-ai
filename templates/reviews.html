@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Reviews - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">Wishlist ❤️</a>
+            <a href="/cart">Cart 🛒</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">Chatbot 🤖</a>
+                <a href="/orders">Orders 📦</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <h1 style="text-align: center; font-size: 55px; margin: 50px 0; color: #38bdf8;">
+        ⭐ Product Reviews
+    </h1>
+
+    <div class="auth-container" style="min-height: auto; padding: 0 40px;">
+        <div class="auth-card" style="max-width: 600px; width: 100%;">
+            
+            <form action="/reviews" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                
+                <input type="text" name="username" placeholder="Enter Your Name" required style="padding: 16px; border-radius: 12px; border: none; background: #1e293b; color: white; outline: none; font-size: 16px;">
+                
+                <select name="rating" required style="padding: 16px; border-radius: 12px; border: none; background: #1e293b; color: white; outline: none; font-size: 16px; cursor: pointer;">
+                    <option value="">Select Rating</option>
+                    <option value="1">⭐</option>
+                    <option value="2">⭐⭐</option>
+                    <option value="3">⭐⭐⭐</option>
+                    <option value="4">⭐⭐⭐⭐</option>
+                    <option value="5">⭐⭐⭐⭐⭐</option>
+                </select>
+                
+                <textarea name="comment" rows="5" placeholder="Write Your Review..." required style="padding: 16px; border-radius: 12px; border: none; background: #1e293b; color: white; outline: none; font-size: 16px; resize: none; font-family: inherit;"></textarea>
+                
+                <button type="submit" style="padding: 16px; border-radius: 12px; border: none; background: #2563eb; color: white; font-size: 18px; cursor: pointer; transition: 0.3s; font-weight: bold; margin-top: 10px;">
+                    Submit Review ✍️
+                </button>
+                
+            </form>
+            
+        </div>
+    </div>
+
+    <div style="max-width: 800px; margin: 60px auto; padding: 0 40px; display: flex; flex-direction: column; gap: 25px;">
+        
+        {% for review in reviews %}
+            <div style="background: rgba(255,255,255,0.08); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+                
+                <div style="color: #38bdf8; font-size: 24px; font-weight: bold; margin-bottom: 10px;">
+                    {{ review.username }}
+                </div>
+                
+                <div style="color: #facc15; font-size: 24px; margin-bottom: 15px;">
+                    {% for i in range(review.rating) %}
+                        ⭐
+                    {% endfor %}
+                </div>
+                
+                <div style="color: #cbd5e1; line-height: 1.7; font-size: 18px;">
+                    {{ review.comment }}
+                </div>
+                
+            </div>
+        {% else %}
+            <div style="text-align: center; color: #94a3b8; font-size: 22px; padding: 40px;">
+                No reviews yet. Be the first to leave one!
+            </div>
+        {% endfor %}
+        
+    </div>
+
+</body>
+</html>

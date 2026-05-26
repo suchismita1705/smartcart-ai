@@ -1,0 +1,15 @@
+# Environments
+venv/
+env/
+
+# Database
+instance/
+*.db
+*.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Mac system files (if you are on a Mac)
+.DS_Store

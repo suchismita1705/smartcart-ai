@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+
+        <div class="nav-search">
+            <form action="/" method="GET">
+                <input type="text" name="search" placeholder="Search Products..." class="search-box" value="{{ request.args.get('search', '') }}">
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">❤️ Wishlist ({{ wishlist_count }})</a>
+            <a href="/cart">🛒 Cart ({{ cart_count }})</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">🤖 Chatbot</a>
+                <a href="/orders">📦 Orders</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-left">
+            <h1>Smart Shopping <br>Powered By AI 🚀</h1>
+            <p>Discover trending products, smart recommendations, premium deals and futuristic ecommerce experience.</p>
+            <a href="#products">
+                <button class="hero-btn">Explore Now ⚡</button>
+            </a>
+        </div>
+        <div class="hero-right">
+            <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="Hero Illustration">
+        </div>
+    </section>
+
+    <section class="ai-banner">
+        <div class="ai-left">
+            <h2>🤖 AI Smart Recommendations</h2>
+            <p>Get personalized shopping suggestions, best trending deals and smart picks.</p>
+        </div>
+        <div class="ai-right">
+            <a href="/chatbot">
+                <button class="ai-btn">Explore AI Picks ⚡</button>
+            </a>
+        </div>
+    </section>
+
+    <section class="categories">
+        <h2>Browse Categories ⚡</h2>
+        <div class="category-container">
+            <a href="/" class="category-pill">All Products</a>
+            {% for category in categories %}
+                <a href="/?category={{ category }}" class="category-pill">
+                    {{ category | title }}
+                </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="products" class="products-section">
+        <h2>Trending Products 🔥</h2>
+        
+        {% if products|length == 0 %}
+            <h3 style="text-align: center; color: #cbd5e1; font-size: 24px; margin-top: 40px;">No products found. Try a different search! 🕵️‍♂️</h3>
+        {% else %}
+            <div class="product-grid">
+                {% for product in products %}
+                    <div class="product-card">
+                        <div class="discount-badge">
+                            {{ product.discount }}% OFF
+                        </div>
+
+                        <a href="/add_to_wishlist/{{ product.id }}" class="wishlist-heart">
+                            ❤️
+                        </a>
+
+                        <a href="/product/{{ product.id }}">
+                            <img src="{{ product.image }}" class="product-image" alt="{{ product.name }}">
+                        </a>
+
+                        <h3>{{ product.name }}</h3>
+
+                        <div class="price">
+                            ₹{{ product.price }}
+                        </div>
+
+                        <div class="rating">
+                            ⭐⭐⭐⭐⭐ {{ product.rating }}
+                        </div>
+
+                        <div class="card-buttons">
+                            <a href="/product/{{ product.id }}" class="view-btn">
+                                View 👁
+                            </a>
+                            <a href="/add_to_cart/{{ product.id }}" class="cart-btn">
+                                Add Cart 🛒
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </section>
+
+</body>
+</html>

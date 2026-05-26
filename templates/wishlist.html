@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Wishlist - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+
+        <div class="nav-search">
+            <form action="/" method="GET">
+                <input type="text" name="search" placeholder="Search Products..." class="search-box">
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/cart">🛒 Cart</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">🤖 Chatbot</a>
+                <a href="/orders">📦 Orders</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div style="padding: 60px 5%; margin-top: 30px; text-align: center;">
+        <h1 style="font-size: 75px; color: white;">
+            Your Wishlist ❤️
+        </h1>
+    </div>
+
+    {% if wishlist|length == 0 %}
+        <div style="text-align: center; margin-top: 50px;">
+            <h1 style="font-size: 55px; color: #cbd5e1;">
+                Wishlist Is Empty 💔
+            </h1>
+            <a href="/" style="font-size: 24px; color: #3b82f6; text-decoration: none; margin-top: 20px; display: inline-block;">
+                Explore Products ⚡
+            </a>
+        </div>
+    {% else %}
+        <div class="product-grid" style="padding: 0 8% 60px 8%;">
+            {% for item in wishlist %}
+                <div class="product-card">
+                    
+                    <div class="discount-badge">
+                        {{ item.discount }}% OFF
+                    </div>
+
+                    <a href="/product/{{ item.product_id }}">
+                        <img src="{{ item.product_image }}" class="product-image" alt="{{ item.product_name }}">
+                    </a>
+
+                    <h3 class="product-title" style="font-size: 22px;">
+                        {{ item.product_name }}
+                    </h3>
+
+                    <div class="price">
+                        ₹{{ item.product_price }}
+                    </div>
+
+                    <div class="rating">
+                        ⭐ {{ item.rating }}
+                    </div>
+
+                    <div class="wishlist-buttons">
+                        <a href="/add_to_cart/{{ item.product_id }}" class="cart-button">
+                            Add 🛒
+                        </a>
+                        <a href="/remove_from_wishlist/{{ item.product_id }}" class="remove-button">
+                            Remove ❌
+                        </a>
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+</body>
+</html>

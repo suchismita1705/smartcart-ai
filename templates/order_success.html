@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Successful - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">Wishlist ❤️</a>
+            <a href="/cart">Cart 🛒</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">Chatbot 🤖</a>
+                <a href="/orders">Orders 📦</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card" style="max-width: 600px; padding: 60px;">
+            
+            <div style="font-size: 100px; margin-bottom: 20px;">
+                ✅
+            </div>
+            
+            <h1 style="color: #22c55e; margin-bottom: 20px; font-size: 42px;">
+                Order Placed Successfully!
+            </h1>
+            
+            <p style="font-size: 22px; color: #cbd5e1; margin-bottom: 30px;">
+                Thank you for shopping with SmartCart AI 🚀
+            </p>
+            
+            <div style="font-size: 28px; font-weight: bold; color: #38bdf8; margin-bottom: 40px; background: #1e293b; padding: 20px; border-radius: 15px;">
+                Order ID: #SC{{ order_id }}
+            </div>
+            
+            <a href="/" style="background: #2563eb; color: white; padding: 18px 40px; border-radius: 16px; font-size: 22px; text-decoration: none; font-weight: bold; transition: 0.3s; display: inline-block;">
+                Continue Shopping 🛍️
+            </a>
+            
+        </div>
+    </div>
+
+</body>
+</html>

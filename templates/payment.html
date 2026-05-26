@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Custom styles for the payment option buttons */
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+        .payment-option:hover {
+            border: 2px solid #3b82f6;
+            background: #0f172a;
+        }
+        .payment-option input[type="radio"] {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            margin: 0;
+            accent-color: #3b82f6;
+        }
+        .payment-label {
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+
+        <div class="nav-search">
+            <form action="/" method="GET">
+                <input type="text" name="search" placeholder="Search Products..." class="search-box">
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">Wishlist ❤️</a>
+            <a href="/cart">Cart 🛒</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">🤖 Chatbot</a>
+                <a href="/orders">📦 Orders</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card" style="max-width: 600px;">
+            <h1>Payment 💳</h1>
+            <p style="color: #cbd5e1; font-size: 18px; margin-bottom: 30px;">
+                Complete your transaction securely.
+            </p>
+
+            <form method="POST" action="/checkout">
+                
+                <input 
+                    type="email" 
+                    name="email" 
+                    placeholder="Enter Email for Receipt" 
+                    required 
+                    style="width: 100%; margin-bottom: 30px;"
+                >
+
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="UPI" required>
+                    <span class="payment-label">UPI (GPay, PhonePe, Paytm)</span>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="Card">
+                    <span class="payment-label">Credit / Debit Card</span>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="COD">
+                    <span class="payment-label">Cash On Delivery</span>
+                </label>
+
+                <button type="submit" style="width: 100%; margin-top: 25px; padding: 22px; font-size: 24px;">
+                    Confirm Order 🚀
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

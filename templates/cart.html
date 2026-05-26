@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">Wishlist ❤️</a>
+            
+            {% if session.get("user") %}
+                <a href="/orders">Orders 📦</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="cart-page">
+        <h1>Your Cart 🛒</h1>
+
+        {% if cart|length == 0 %}
+            <div class="empty-cart">
+                Your Cart Is Empty 🛒
+                <br>
+                <a href="/" style="font-size: 24px; color: #3b82f6; text-decoration: none; margin-top: 20px; display: inline-block;">
+                    Browse Products ⚡
+                </a>
+            </div>
+        {% else %}
+            <div class="cart-layout">
+                
+                <div class="cart-items">
+                    {% for item in cart %}
+                        <div class="cart-card">
+                            <img src="{{ item.image }}" class="cart-image" alt="{{ item.name }}">
+                            
+                            <div class="cart-info">
+                                <h2>{{ item.name }}</h2>
+                                <div class="cart-price">₹{{ item.price }}</div>
+                                <div class="cart-rating">⭐ {{ item.rating }}</div>
+                                <div class="cart-discount">{{ item.discount }}% OFF</div>
+                                
+                                <div class="quantity-box">
+                                    <a href="/decrease_quantity/{{ item.id }}">−</a>
+                                    <span>{{ item.quantity }}</span>
+                                    <a href="/increase_quantity/{{ item.id }}">+</a>
+                                </div>
+                                
+                                <div class="item-total">
+                                    Total: ₹{{ item.price * item.quantity }}
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <a href="/remove_from_cart/{{ item.id }}" class="remove-btn">
+                                    Remove ❌
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="grand-total">
+                        ₹{{ total }}
+                    </div>
+                    <a href="/checkout" class="checkout-btn">
+                        Proceed To Checkout 🚀
+                    </a>
+                </div>
+
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

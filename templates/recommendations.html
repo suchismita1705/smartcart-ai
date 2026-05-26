@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recommendations - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+
+        <div class="nav-search">
+            <form action="/" method="GET">
+                <input type="text" name="search" placeholder="Search Products..." class="search-box">
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">❤️ Wishlist</a>
+            <a href="/cart">🛒 Cart</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">🤖 Chatbot</a>
+                <a href="/orders">📦 Orders</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div style="padding: 50px 8%;">
+        <h1 style="text-align: center; color: #38bdf8; font-size: 50px; margin-bottom: 50px;">
+            🤖 AI Recommendations
+        </h1>
+
+        {% if not recommended_products or recommended_products|length == 0 %}
+            <div style="text-align: center; margin-top: 50px;">
+                <h2 style="color: #cbd5e1; font-size: 28px;">
+                    We are gathering the best picks for you. Check back soon!
+                </h2>
+                <a href="/" style="display: inline-block; margin-top: 20px; font-size: 20px; color: #3b82f6; text-decoration: none; font-weight: bold;">
+                    Explore Trending Products ⚡
+                </a>
+            </div>
+        
+        {% else %}
+            <div class="product-grid">
+                {% for product in recommended_products %}
+                    <div class="product-card">
+                        
+                        <div class="discount-badge">
+                            {{ product.discount }}% OFF
+                        </div>
+
+                        <a href="/add_to_wishlist/{{ product.id }}" class="wishlist-heart">❤️</a>
+
+                        <a href="/product/{{ product.id }}">
+                            <img src="{{ product.image }}" class="product-image" alt="{{ product.name }}">
+                        </a>
+
+                        <h3>{{ product.name }}</h3>
+                        <div class="price">₹{{ product.price }}</div>
+                        <div class="rating">⭐⭐⭐⭐⭐ {{ product.rating }}</div>
+
+                        <div class="card-buttons">
+                            <a href="/product/{{ product.id }}" class="view-btn">View 👁</a>
+                            <a href="/add_to_cart/{{ product.id }}" class="cart-btn">Add Cart 🛒</a>
+                        </div>
+                        
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

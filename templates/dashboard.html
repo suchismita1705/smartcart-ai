@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SmartCart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            SmartCart AI 🚀
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/wishlist">Wishlist ❤️</a>
+            <a href="/cart">Cart 🛒</a>
+            
+            {% if session.get("user") %}
+                <a href="/chatbot">Chatbot 🤖</a>
+                <a href="/orders">Orders 📦</a>
+                <a href="/logout">Logout 🚪</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <h1 style="text-align: center; font-size: 60px; margin-top: 40px;">
+        Analytics Dashboard 📊
+    </h1>
+    <p style="text-align: center; font-size: 24px; margin-top: 15px; color: #d1d5db;">
+        Welcome back, <span style="color: #38bdf8; font-weight: bold;">{{ session.get('user', 'Admin') }}</span>
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; padding: 50px 5%;">
+        
+        <div class="ai-card" style="text-align: center; padding: 40px 20px;">
+            <h1 style="font-size: 65px;">👤</h1>
+            <h2 style="margin-top: 20px; color: #cbd5e1;">Total Users</h2>
+            <h1 style="margin-top: 20px; color: #38bdf8; font-size: 55px;">{{ total_users }}</h1>
+        </div>
+
+        <div class="ai-card" style="text-align: center; padding: 40px 20px;">
+            <h1 style="font-size: 65px;">📦</h1>
+            <h2 style="margin-top: 20px; color: #cbd5e1;">Total Orders</h2>
+            <h1 style="margin-top: 20px; color: #22c55e; font-size: 55px;">{{ total_orders }}</h1>
+        </div>
+
+        <div class="ai-card" style="text-align: center; padding: 40px 20px;">
+            <h1 style="font-size: 65px;">🛒</h1>
+            <h2 style="margin-top: 20px; color: #cbd5e1;">Cart Items</h2>
+            <h1 style="margin-top: 20px; color: #f59e0b; font-size: 55px;">{{ total_cart }}</h1>
+        </div>
+
+        <div class="ai-card" style="text-align: center; padding: 40px 20px;">
+            <h1 style="font-size: 65px;">❤️</h1>
+            <h2 style="margin-top: 20px; color: #cbd5e1;">Wishlist Items</h2>
+            <h1 style="margin-top: 20px; color: #ef4444; font-size: 55px;">{{ total_wishlist }}</h1>
+        </div>
+    </div>
+
+    <div style="width: 90%; max-width: 1200px; margin: 40px auto; background: #111827; padding: 50px; border-radius: 30px; box-shadow: 0 0 30px rgba(0,0,0,0.4);">
+        <h1 style="text-align: center; font-size: 50px;">Sales Overview 💰</h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+            <div class="ai-card" style="text-align: center; background: #1e293b;">
+                <h1 style="font-size: 50px;">💵</h1>
+                <h2 style="margin-top: 20px; font-size: 22px;">Total Revenue</h2>
+                <h1 style="margin-top: 20px; color: #22c55e;">₹{{ total_orders * 5000 }}</h1>
+            </div>
+
+            <div class="ai-card" style="text-align: center; background: #1e293b;">
+                <h1 style="font-size: 50px;">🛍️</h1>
+                <h2 style="margin-top: 20px; font-size: 22px;">Products Listed</h2>
+                <h1 style="margin-top: 20px; color: #38bdf8;">100+</h1>
+            </div>
+
+            <div class="ai-card" style="text-align: center; background: #1e293b;">
+                <h1 style="font-size: 50px;">🚀</h1>
+                <h2 style="margin-top: 20px; font-size: 22px;">Success Rate</h2>
+                <h1 style="margin-top: 20px; color: #f59e0b;">98%</h1>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 40px 5%;">
+        <h1 style="text-align: center; font-size: 50px; margin-bottom: 40px;">SmartCart Features 🚀</h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+            <div class="ai-card" style="text-align: center; padding: 30px;">
+                <h1 style="font-size: 50px;">🤖</h1>
+                <h2 style="margin: 15px 0; font-size: 24px;">AI Assistant</h2>
+                <p style="color: #cbd5e1;">Smart product recommendations</p>
+            </div>
+
+            <div class="ai-card" style="text-align: center; padding: 30px;">
+                <h1 style="font-size: 50px;">💳</h1>
+                <h2 style="margin: 15px 0; font-size: 24px;">Secure Checkout</h2>
+                <p style="color: #cbd5e1;">Multiple payment methods</p>
+            </div>
+
+            <div class="ai-card" style="text-align: center; padding: 30px;">
+                <h1 style="font-size: 50px;">📦</h1>
+                <h2 style="margin: 15px 0; font-size: 24px;">Order Tracking</h2>
+                <p style="color: #cbd5e1;">Live delivery updates</p>
+            </div>
+
+            <div class="ai-card" style="text-align: center; padding: 30px;">
+                <h1 style="font-size: 50px;">⭐</h1>
+                <h2 style="margin: 15px 0; font-size: 24px;">Reviews & Ratings</h2>
+                <p style="color: #cbd5e1;">Customer feedback system</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer" style="text-align: center; padding: 40px; background: rgba(15, 23, 42, 0.82); margin-top: 40px; border-top: 1px solid #1e293b;">
+        <h1 style="color: #38bdf8;">SmartCart AI 🚀</h1>
+        <p style="margin-top: 15px; color: gray; font-size: 18px;">
+            AI Powered Ecommerce Platform
+        </p>
+    </div>
+
+</body>
+</html>
